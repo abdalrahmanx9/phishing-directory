@@ -35,7 +35,7 @@ spec:
           command:
             - sh
             - -c
-            - wget -O /usr/share/nginx/html/index.html https://raw.githubusercontent.com/abdulrahmanx9/phishing-directory/main/frontend/html/index.html && echo "index.html fetched:" && head -c 200 /usr/share/nginx/html/index.html
+            - for i in $(seq 1 30); do wget -O /usr/share/nginx/html/index.html https://raw.githubusercontent.com/abdulrahmanx9/phishing-directory/main/frontend/html/index.html && exit 0; echo "retry $i"; sleep 5; done; exit 1
           volumeMounts:
             - name: html
               mountPath: /usr/share/nginx/html
