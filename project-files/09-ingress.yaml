@@ -7,6 +7,10 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - k8s.d7m.uk
+      secretName: k8s-d7m-uk-tls
   rules:
     - host: k8s.d7m.uk
       http:
