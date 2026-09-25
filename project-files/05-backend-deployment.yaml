@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: phishing
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      tolerations:
+        - key: "project"
+          operator: "Equal"
+          value: "phishing"
+          effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: project
+                    operator: In
+                    values:
+                      - phishing
+      containers:
+        - name: backend
+          image: abdalrahmanx/phishing-backend:v1
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: db-secret
