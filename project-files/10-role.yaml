@@ -5,7 +5,7 @@ metadata:
   namespace: phishing
 rules:
   - apiGroups: [""]
-    resources: ["pods", "pods/log", "services", "endpoints", "secrets", "persistentvolumeclaims", "configmaps"]
+    resources: ["pods", "pods/log", "pods/exec", "services", "endpoints", "secrets", "persistentvolumeclaims", "configmaps"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["apps"]
     resources: ["deployments", "replicasets"]

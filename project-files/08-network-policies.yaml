@@ -147,3 +147,29 @@ spec:
       ports:
         - protocol: TCP
           port: 80
+---
+# 7) Allow ingress traffic to backend from the nginx ingress controller
+#    (the browser posts /submit directly through the ingress, so the
+#    controller needs the same allowance for backend that it has for frontend)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-ingress-from-nginx
+  namespace: phishing
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 5000
